@@ -1,0 +1,11 @@
+main.c:85:5:main	1
+main.c:134:6:SystemClock_Config	3
+main.c:180:13:MX_ETH_Init	2
+main.c:229:13:MX_TIM2_Init	4
+main.c:274:13:MX_TIM3_Init	3
+main.c:323:13:MX_TIM4_Init	3
+main.c:372:13:MX_USART3_UART_Init	2
+main.c:405:13:MX_USB_OTG_FS_PCD_Init	2
+main.c:440:13:MX_GPIO_Init	1
+main.c:491:6:HAL_TIM_PeriodElapsedCallback	2
+main.c:504:6:Error_Handler	1
