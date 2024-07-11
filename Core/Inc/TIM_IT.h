@@ -13,7 +13,7 @@
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 
-int t_ms;
+extern int t_ms;
 
 void timer_setup();
 

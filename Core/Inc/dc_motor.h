@@ -27,6 +27,7 @@ class DC_motor{
         //basic functions
         short cnt_enc; //mrmr: why npt int16_t?
         void encoder(); //read wheel speed
+        double pwm;
 
     public:
         double rps_cmd;
@@ -35,7 +36,6 @@ class DC_motor{
         double Kp;
         double Ki;
         double Kd;
-        double PWM;
 
         //constructor
         DC_motor(double res, double ratio, float span, TIM_HandleTypeDef* timer); //without PID
