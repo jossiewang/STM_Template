@@ -9,6 +9,7 @@
 #define INC_ROS_PORT_H_
 
 #include "ros.h"
+#include "STM32Hardware.h"
 #include "geometry_msgs/Twist.h"
 #include "std_msgs/Int64.h"
 

@@ -6,7 +6,6 @@
  */
 
 #include "ros_port.h"
-#include "STM32Hardware.h"
 
 int count;
 // ros variables

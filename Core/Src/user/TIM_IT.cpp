@@ -18,10 +18,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 void TIM_Start(){
     HAL_TIM_Base_Start_IT(&htim2);
-	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_1); //PA6
-    HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_2); //PC7
-    HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1); //PD12
-    HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_2); //PD13
+//	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_1); //PA6
+//    HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_2); //PC7
+//    HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1); //PD12
+//    HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_2); //PD13
 
 
 	//construct dc motor

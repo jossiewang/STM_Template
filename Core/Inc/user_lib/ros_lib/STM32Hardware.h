@@ -37,9 +37,9 @@
 
 #define STM32F4xx  // Change for your device
 
-#ifdef STM32H7xx
-#include "stm32h7xx_hal.h"
-#include "stm32h7xx_hal_uart.h"
+#ifdef STM32F3xx
+#include "stm32f3xx_hal.h"
+#include "stm32f3xx_hal_uart.h"
 #endif /* STM32F3xx */
 #ifdef STM32F4xx
 #include "stm32f4xx_hal.h"
@@ -50,24 +50,24 @@
 #include "stm32f7xx_hal_uart.h"
 #endif /* STM32F7xx */
 
-extern UART_HandleTypeDef huart10;
+extern UART_HandleTypeDef huart3; //change
 
 class STM32Hardware {
   protected:
     UART_HandleTypeDef *huart;
 
-    const static uint16_t rbuflen = 2048;
+    const static uint16_t rbuflen = 512;
     uint8_t rbuf[rbuflen];
     uint32_t rind;
     inline uint32_t getRdmaInd(void){ return (rbuflen - __HAL_DMA_GET_COUNTER(huart->hdmarx)) & (rbuflen - 1); }
 
-    const static uint16_t tbuflen = 2048;
+    const static uint16_t tbuflen = 512;
     uint8_t tbuf[tbuflen];
     uint32_t twind, tfind;
 
   public:
     STM32Hardware():
-      huart(&huart10), rind(0), twind(0), tfind(0){
+      huart(&huart3), rind(0), twind(0), tfind(0){ //change
     }
 
     STM32Hardware(UART_HandleTypeDef *huart_):
