@@ -9,6 +9,7 @@
 #define INC_DC_MOTOR_H_
 
 #include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_gpio.h"
 
 class DC_motor{
     private:
@@ -18,7 +19,12 @@ class DC_motor{
         float timespan;
 
         // STM config
-        TIM_HandleTypeDef* timer;
+        TIM_HandleTypeDef* timer_enc;
+        TIM_HandleTypeDef* timer_pwm;
+        GPIO_TypeDef* INAport;
+        uint16_t INApin;
+        GPIO_TypeDef* INBport;
+        uint16_t INBpin;
 
         //for system identification
         float response[1000];
@@ -39,7 +45,9 @@ class DC_motor{
 
         //constructor
         DC_motor(double res, double ratio, float span, TIM_HandleTypeDef* timer); //without PID
-        DC_motor(double p, double i, double d, double res, double ratio, float span, TIM_HandleTypeDef* timer); //with PID
+        DC_motor(double p, double i, double d, double res, double ratio, float span, 
+                    TIM_HandleTypeDef* tim_enc, TIM_HandleTypeDef* tim_pwm, 
+                    GPIO_TypeDef* inaPort, GPIO_TypeDef* inbPort, uint16_t inaPin, uint16_t inbPin)
         void sample_clr();
         void sample_bag();
         void PIDControl();

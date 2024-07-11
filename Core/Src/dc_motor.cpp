@@ -21,27 +21,34 @@ void DC_motor_setup(){
     HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_2); //PD13
 }
 
-DC_motor::DC_motor(double p, double i, double d, double res, double ratio, float span, TIM_HandleTypeDef* htimN){
+DC_motor::DC_motor(double p, double i, double d, double res, double ratio, float span, 
+                    TIM_HandleTypeDef* tim_enc, TIM_HandleTypeDef* tim_pwm, 
+                    GPIO_TypeDef* inaPort, GPIO_TypeDef* inbPort, uint16_t inaPin, uint16_t inbPin){
 	this->Kp = p;
 	this->Ki = i;
 	this->Kd = d;
 	this->resolution = res;
 	this->reduction_ratio = ratio;
     this->timespan = span;
-    this->timer = htimN;
+    this->timer_enc = tim_enc;
+    this->timer_pwm = tim_pwm;
+    this->INAport = inaPort;
+    this->INApin = inaPin;
+    this->INBport = inbPort;
+    this->INBpin = inbPin;
 }
 
 DC_motor::DC_motor(double res, double ratio, float span, TIM_HandleTypeDef* htimN){
 	this->resolution = res;
 	this->reduction_ratio = ratio;
     this->timespan = span;
-    this->timer = htimN;
+    this->timer_enc = htimN;
 }
 
 void DC_motor::encoder(){
-    cnt_enc = __HAL_TIM_GetCounter(timer);
+    cnt_enc = __HAL_TIM_GetCounter(timer_enc);
     rps_enc = (double) cnt_enc / (4*resolution * reduction_ratio * timespan);
-    __HAL_TIM_SetCounter(timer, 0);
+    __HAL_TIM_SetCounter(timer_enc, 0);
 
 }
 
