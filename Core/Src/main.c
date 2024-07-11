@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "mainpp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -32,25 +32,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//motor datasheet
-#define resolution_MF 44
-#define reductionratio_MF 103
-// #define resolution_ML 500
-// #define reductionratio_ML 13.2
-// #define resolution_MR 512
-// #define reductionratio_MR 20.8
-
-//motor control
-#define TIM_ENC_MF &htim3
-// #define TIM_ENC_ML &htim4
-// #define TIM_ENC_MR &htim23
-// #define TIM_PWM_MF &htim2
-// #define TIM_PWM_ML &htim2
-// #define TIM_PWM_MR &htim8
-// #define CH_PWM_MF TIM_CHANNEL_1
-// #define CH_PWM_ML TIM_CHANNEL_4
-// #define CH_PWM_MR TIM_CHANNEL_3
-#define motor_span 0.001
 
 //pin names
 // #define INA_MR_PORT GPIOE
@@ -90,13 +71,6 @@ UART_HandleTypeDef huart3;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
-int16_t enc_MF;
-double speed_MF;
-int16_t enc_ML;
-double speed_ML;
-int16_t enc_MR;
-double speed_MR;
-int t_ms;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -124,7 +98,6 @@ static void MX_TIM2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	t_ms = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -152,11 +125,7 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim2);
-  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_1); //PA6
-  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_2); //PC7
-  HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1); //PD12
-  HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_2); //PD13
+  main_function();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -531,42 +500,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-float MF_data[2500];
-float ML_data[2500];
-float MR_data[2500];
-int arraycnt = 0;
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if(htim->Instance == TIM2){
-		t_ms++;
-		//front wheel motor
-		enc_MF = __HAL_TIM_GetCounter(TIM_ENC_MF);
-		speed_MF = (double) enc_MF / (4*resolution_MF * reductionratio_MF *motor_span);
-		__HAL_TIM_SetCounter(TIM_ENC_MF, 0);
-		if(speed_MF!=0){
-			if(arraycnt<2500) MF_data[arraycnt] = speed_MF;
-			arraycnt++;
-		}
-
-		// //left wheel motor
-		// enc_ML = __HAL_TIM_GetCounter(TIM_ENC_ML);
-		// speed_ML = (double) enc_ML / (4*resolution_ML * reductionratio_ML *motor_span);
-		// __HAL_TIM_SetCounter(TIM_ENC_ML, 0);
-		// if(speed_ML!=0){
-		// 	if(arraycnt<2500) ML_data[arraycnt] = speed_ML;
-		// 	arraycnt++;
-		// }
-
-		// //right wheel motor
-		// enc_MR = __HAL_TIM_GetCounter(TIM_ENC_MR);
-		// speed_MR = (double) enc_MR / (4*resolution_MR * reductionratio_MR *motor_span);
-		// __HAL_TIM_SetCounter(TIM_ENC_MR, 0);
-		// if(speed_MR!=0){
-		// 	if(arraycnt<2500) MR_data[arraycnt] = speed_MR;
-		// 	arraycnt++;
-		// }
-	}
-}
 
 /* USER CODE END 4 */
 
