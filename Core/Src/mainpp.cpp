@@ -7,14 +7,16 @@
 
 #include "mainpp.h"
 #include "TIM_IT.h"
+#include "ros_port.h"
 
 void main_function(){
     /* setup */
-    timer_setup();
-    t_ms = 0;
+    ros_setup();
+    TIM_Start();
 
     while(1){
         /* loop */
+        ros_sub();
     }
 }
 

@@ -11,44 +11,28 @@
 #include "stm32f4xx_hal.h"
 
 class DC_motor{
-    private:
-        // motor system characteristic
-        double resolution;
-        double reduction_ratio;
-        float timespan;
+public:
+	static double freq;
 
-        // STM config
-        TIM_HandleTypeDef* timer;
-
-        //for system identification
-        float response[1000];
-        int arraycnt;
-
-        //basic functions
-        short cnt_enc; //mrmr: why npt int16_t?
-        void encoder(); //read wheel speed
-        double pwm;
-
-    public:
-        double rps_cmd;
-        double rps_enc;
-
-        double Kp;
-        double Ki;
-        double Kd;
-
-        //constructor
-        DC_motor(double res, double ratio, float span, TIM_HandleTypeDef* timer); //without PID
-        DC_motor(double p, double i, double d, double res, double ratio, float span, TIM_HandleTypeDef* timer); //with PID
-        void sample_clr();
-        void sample_bag();
-        void PIDControl();
-        void PWM();
-        void performance(float* response); //use the response data to carry out analysis
+	DC_motor( TIM_HandleTypeDef *htim_enc, double res ,double ratio ,
+			double p, double i, double d, TIM_HandleTypeDef *htim_motor, uint32_t Channel_motor );
+	double SP = 0,PV = 0;
+	int pulse;
+	//encoder
+	void encoder();
+	TIM_HandleTypeDef *encoder_TIM;
+	double reduction_ratio;
+	int resolution;
+	int enc;
+	//PID
+	void PID_PWM_Convertor(double set_point,double present_var);
+	double kp, ki, kd;
+	//output
+	void output( int Pulse, GPIO_TypeDef *GPIO_A, uint16_t GPIO_Pin_A, GPIO_TypeDef *GPIO_B, uint16_t GPIO_Pin_B);
+	TIM_HandleTypeDef *PWM_TIM;
+	uint32_t PWM_Channel;
 };
 
 extern DC_motor Eu22;
-
-void DC_motor_setup();
 
 #endif /* INC_DC_MOTOR_H_ */
